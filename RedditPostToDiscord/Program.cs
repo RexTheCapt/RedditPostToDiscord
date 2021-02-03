@@ -166,13 +166,19 @@ namespace RedditPostToDiscord
             jo.Add(j1);
             jo.Add(j2);
 
+            if (!_settings.ContainsKey("sent urls"))
+                _settings.Add("sent urls", new JArray());
+
             _settings.Value<JArray>("sent urls").Add(jo);
         }
 
         private bool SentBefore(string url)
         {
             JArray ja = _settings.Value<JArray>("sent urls");
-            
+
+            if (ja == null)
+                return false;
+
             foreach (JToken jt in ja.Children())
             {
                 string urlString = jt.Value<string>("url");
