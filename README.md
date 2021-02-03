@@ -6,6 +6,7 @@ This bot does not download the images to send them, it will just take the URL an
 
 ## How to use:
 Build the program then run it. The setup is done thru the console.
+Press Q anytime in the console to stop it. This is the only time where it will save the settings and the list of sent images.
 
 ## Explanation on the setup steps:
 ### Please input bot token:
