@@ -39,6 +39,8 @@ namespace RedditPostToDiscord
             var postChannel = _client.GetChannel(_settings.Value<ulong>("post channel"));
             var generalChannel = _client.GetChannel(_settings.Value<ulong>("general id"));
 
+            await DiscordClient_log(new Discord.LogMessage(Discord.LogSeverity.Info, "main", $"Next general message: {_settings.Value<DateTime>("general time")}"));
+
             while (true)
             {
                 Thread.Sleep((postChannel == null || generalChannel == null ? 1000 : 100));
@@ -124,6 +126,7 @@ namespace RedditPostToDiscord
                     int seconds = rdm.Next(0, 60);
 
                     _settings.Property("general time").Value = DateTime.Now.AddHours(hours).AddMinutes(minutes).AddSeconds(seconds);
+                    await DiscordClient_log(new Discord.LogMessage(Discord.LogSeverity.Info, "main", $"Next general message time: {_settings.Value<DateTime>("general time")}"));
                 }
                 #endregion
 
