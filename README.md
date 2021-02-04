@@ -25,3 +25,6 @@ Pretty self explanatory, this is where you add the delay in seconds (required to
 ### Input general channel ID:
 If you want to you can add an channel to send the image to randomly from 0 sec (very low chance) to 24 hours, number required.
 (hour, min and seconds are randomized).
+
+### Please input subreddit:
+Input the subreddit you want to take the posts from, possible to change this reddit later by typing r/<subreddit> in the selected discord channel.
