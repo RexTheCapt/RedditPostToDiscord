@@ -100,27 +100,25 @@ namespace RedditPostToDiscord
                         await DiscordClient_log(new Discord.LogMessage(Discord.LogSeverity.Warning, "Main", "No more images to post"));
 
                     _lastRedditGetTime = DateTime.Now;
+
+                    await DiscordClient_log(new Discord.LogMessage(Discord.LogSeverity.Info, "main", $"Next post: {_lastRedditGetTime.AddSeconds(_settings.Value<int>("post delay"))}"));
                 }
                 #endregion
 
                 #region Post to general once a day
                 if (_settings.Value<DateTime>("general time") < DateTime.Now && generalChannel != null && _settings.Value<ulong>("general id") != 0)
                 {
+                    Random rdm = new Random();
                     var posts = GetPosts();
+                    var select = posts[rdm.Next(0, posts.Count)].Value<JObject>("data");
 
                     var msgChnl = generalChannel as ISocketMessageChannel;
 
-                    foreach (var p in posts)
-                    {
-                        var data = p.Value<JObject>("data");
-                        string url = data.Value<string>("url");
+                    string url = select.Value<string>("url");
 
-                        await msgChnl.SendMessageAsync(url);
-                        await DiscordClient_log(new Discord.LogMessage(Discord.LogSeverity.Info, "main", $"Posted {url} to general"));
-                        break;
-                    }
+                    await msgChnl.SendMessageAsync(url);
+                    await DiscordClient_log(new Discord.LogMessage(Discord.LogSeverity.Info, "main", $"Posted {url} to general"));
 
-                    Random rdm = new Random();
                     int hours = rdm.Next(0, 24);
                     int minutes = rdm.Next(0, 60);
                     int seconds = rdm.Next(0, 60);
@@ -343,7 +341,7 @@ namespace RedditPostToDiscord
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "RedditPostToDiscord/rexthecapt AT gmail.com");
-            client.BaseAddress = new Uri("https://www.reddit.com/r/blursedimages/top/");
+            client.BaseAddress = new Uri("https://www.reddit.com/r/TIHI/top/");
 
             JObject redditPosts;
 
